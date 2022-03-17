@@ -2,7 +2,8 @@ import 'package:flutter/services.dart';
 import 'package:shopping_api_gdsc/Product/product-class.dart';
 import 'package:flutter/material.dart';
 import 'package:shopping_api_gdsc/parse_json.dart';
-import 'package:shopping_api_gdsc/forms.dart';
+import 'package:shopping_api_gdsc/profileAvatar.dart';
+import 'package:shopping_api_gdsc/upper.dart';
 
 void main() => runApp(
       const MyApp(),
@@ -54,169 +55,80 @@ class _MyHomePageState extends State<MyHomePage> {
             onPressed: () {},
           ),
         ),
-        actions: const [
-          Padding(
-            padding: EdgeInsets.only(right: 25, top: 2),
-            child: CircleAvatar(
-              backgroundImage: AssetImage("images/avatar.png"),
-            ),
-          ),
+        actions: [
+          profileAvatar,
         ],
       ),
-      body: FutureBuilder<List<Product>>(
-        future: futureAlbum,
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            return Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 30.0),
-
-                  /// This is text Field
-                  child: textField,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: const [
-                    Padding(
-                      padding: EdgeInsets.only(top: 20.0, left: 20),
-                      child: Text(
-                        "Categories",
-                        style: TextStyle(
-                          fontSize: 30,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    textButton("Nike", Colors.black),
-                    textButton("Adidas", Colors.grey),
-                    textButton("Puma", Colors.grey),
-                    textButton("Balenciaega", Colors.grey),
-                    textButton("Converse", Colors.grey),
-                  ],
-                ),
-                Expanded(
+      body: Column(
+        children: [
+          columnUpper,
+          FutureBuilder<List<Product>>(
+            future: futureAlbum,
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return Expanded(
                   child: Column(
-                    children:
-                        [
-                          Expanded(
-                            child: GridView.count(
-                              primary: false,
-                              padding: const EdgeInsets.all(20),
-                              crossAxisSpacing: 10,
-                              mainAxisSpacing: 5,
-                              crossAxisCount: 2,
-                              children: snapshot.data!.map((e) => Container(
-                                padding: const EdgeInsets.all(5),
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                                child: Column(
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Row(
-                                          children: [
-                                            const Text("\$"),
-                                            Text(e.price),
-                                          ],
-                                        ),
-                                        const Icon(Icons.favorite_border,color: Colors.grey,),
-                                      ],
-                                    ),
-                                    Image.network(e.image,height: 120,),
-                                    const SizedBox(
-                                      height: 5,
-                                    ),
-                                    Text(e.title.substring(0,18)),
-                                  ],
-                                ),
-                              )).toList(),
-                            ),
-                          )
-                        ],
+                    children: [
+                      Expanded(
+                        child: GridView.count(
+                          primary: false,
+                          padding: const EdgeInsets.all(20),
+                          crossAxisSpacing: 10,
+                          mainAxisSpacing: 5,
+                          crossAxisCount: 2,
+                          children: snapshot.data!
+                              .map((e) => _buildProducts(e))
+                              .toList(),
+                        ),
+                      )
+                    ],
                   ),
-                )
-              ],
-            );
-          } else if (snapshot.hasError) {
-            return Text('${snapshot.error}');
-          }
-          return const CircularProgressIndicator();
-        },
-      ),
-    );
-  }
-
-  Widget _buildItems(Product product) {
-    return Expanded(
-      child: GridView.count(
-        primary: false,
-        padding: const EdgeInsets.all(20),
-        crossAxisSpacing: 10,
-        mainAxisSpacing: 10,
-        crossAxisCount: 2,
-        children: <Widget>[
-          Container(
-            padding: const EdgeInsets.all(8),
-            child: const Text("He'd have you all unravel at the"),
-            color: Colors.teal[100],
-          ),
-          Container(
-            padding: const EdgeInsets.all(8),
-            child: const Text('Heed not the rabble'),
-            color: Colors.teal[200],
-          ),
-          Container(
-            padding: const EdgeInsets.all(8),
-            child: const Text('Sound of screams but the'),
-            color: Colors.teal[300],
-          ),
-          Container(
-            padding: const EdgeInsets.all(8),
-            child: const Text('Who scream'),
-            color: Colors.teal[400],
-          ),
-          Container(
-            padding: const EdgeInsets.all(8),
-            child: const Text('Revolution is coming...'),
-            color: Colors.teal[500],
-          ),
-          Container(
-            padding: const EdgeInsets.all(8),
-            child: const Text('Revolution, they...'),
-            color: Colors.teal[600],
+                );
+              } else if (snapshot.hasError) {
+                return Text('${snapshot.error}');
+              }
+              return const CircularProgressIndicator();
+            },
           ),
         ],
       ),
+
     );
-    // return Column(
-    //   children: [
-    //     Padding(
-    //       padding: const EdgeInsets.all(8.0),
-    //       child: SingleChildScrollView(
-    //         child: Text(product.title),
-    //       ),
-    //     ),
-    //   ],
-    // );
   }
 
-  Widget textButton(String text, Color color) {
-    return TextButton(
-      onPressed: () {},
-      child: Text(
-        text,
-        style: TextStyle(
-          color: color,
-        ),
+  Widget _buildProducts(Product e) {
+    return Container(
+      padding: const EdgeInsets.all(5),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: [
+                  const Text("\$"),
+                  Text(e.price),
+                ],
+              ),
+              const Icon(
+                Icons.favorite_border,
+                color: Colors.grey,
+              ),
+            ],
+          ),
+          Image.network(
+            e.image,
+            height: 120,
+          ),
+          const SizedBox(
+            height: 5,
+          ),
+          Text(e.title.substring(0, 18)),
+        ],
       ),
     );
   }

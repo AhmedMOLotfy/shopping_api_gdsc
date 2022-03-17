@@ -1,9 +1,7 @@
 import 'package:flutter/services.dart';
-import 'package:shopping_api_gdsc/Product/product-class.dart';
 import 'package:flutter/material.dart';
-import 'package:shopping_api_gdsc/parse_json.dart';
 import 'package:shopping_api_gdsc/profileAvatar.dart';
-import 'package:shopping_api_gdsc/upper.dart';
+import 'package:shopping_api_gdsc/MainBody.dart';
 
 void main() => runApp(
       const MyApp(),
@@ -29,13 +27,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  late Future<List<Product>> futureAlbum;
 
-  @override
-  void initState() {
-    futureAlbum = fetchData();
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -59,77 +51,13 @@ class _MyHomePageState extends State<MyHomePage> {
           profileAvatar,
         ],
       ),
-      body: Column(
-        children: [
-          columnUpper,
-          FutureBuilder<List<Product>>(
-            future: futureAlbum,
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                return Expanded(
-                  child: Column(
-                    children: [
-                      Expanded(
-                        child: GridView.count(
-                          primary: false,
-                          padding: const EdgeInsets.all(20),
-                          crossAxisSpacing: 10,
-                          mainAxisSpacing: 5,
-                          crossAxisCount: 2,
-                          children: snapshot.data!
-                              .map((e) => _buildProducts(e))
-                              .toList(),
-                        ),
-                      )
-                    ],
-                  ),
-                );
-              } else if (snapshot.hasError) {
-                return Text('${snapshot.error}');
-              }
-              return const CircularProgressIndicator();
-            },
-          ),
-        ],
-      ),
+      body: const MainBody(),
 
-    );
-  }
-
-  Widget _buildProducts(Product e) {
-    return Container(
-      padding: const EdgeInsets.all(5),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                children: [
-                  const Text("\$"),
-                  Text(e.price),
-                ],
-              ),
-              const Icon(
-                Icons.favorite_border,
-                color: Colors.grey,
-              ),
-            ],
-          ),
-          Image.network(
-            e.image,
-            height: 120,
-          ),
-          const SizedBox(
-            height: 5,
-          ),
-          Text(e.title.substring(0, 18)),
-        ],
-      ),
     );
   }
 }
+
+
+
+
+

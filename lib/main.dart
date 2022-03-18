@@ -1,10 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:shopping_api_gdsc/MainBody.dart';
 import 'package:shopping_api_gdsc/mainAppBar.dart';
+import 'package:shopping_api_gdsc/MyBag.dart';
+import 'package:provider/provider.dart';
 
-void main() => runApp(
-      const MyApp(),
-    );
+import 'package:shopping_api_gdsc/appState.dart';
+
+void main() => runApp(MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (BuildContext context) => CartModel(),
+        )
+      ],
+      child: const MyApp(),
+    ));
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -29,10 +38,10 @@ class _MyHomePageState extends State<MyHomePage> {
   int _selectedIndex = 0;
   List<Widget> pages = [
     const MainBody(),
-    const Text("Num 2"),
-    const Text("num 3"),
-    const Text("num 4"),
-    const Text("num 5")
+    const Text(""),
+    const Text(""),
+    const MyBag(),
+    const Text("")
   ];
 
   void _onItemTapped(int index) {
@@ -49,7 +58,7 @@ class _MyHomePageState extends State<MyHomePage> {
       body: pages.elementAt(_selectedIndex),
       bottomNavigationBar: BottomNavigationBar(
         unselectedItemColor: Colors.grey,
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.blue,
         showSelectedLabels: false,
         showUnselectedLabels: false,
         items: const <BottomNavigationBarItem>[

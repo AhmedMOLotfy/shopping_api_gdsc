@@ -13,6 +13,7 @@ class MainBody extends StatefulWidget {
 
 class _MainBodyState extends State<MainBody> {
   late Future<List<Product>> futureAlbum;
+  final _saved = <String>[];
 
   @override
   void initState() {
@@ -25,7 +26,7 @@ class _MainBodyState extends State<MainBody> {
     return Column(
       children: [
         columnUpper,
-        FutureBuilder<List<Product>> (
+        FutureBuilder<List<Product>>(
           future: futureAlbum,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
@@ -58,6 +59,7 @@ class _MainBodyState extends State<MainBody> {
   }
 
   Widget _buildProducts(Product product) {
+    final added = _saved.contains(product.title);
     return Container(
       padding: const EdgeInsets.all(5),
       decoration: BoxDecoration(
@@ -65,9 +67,11 @@ class _MainBodyState extends State<MainBody> {
         borderRadius: BorderRadius.circular(12),
       ),
       child: GestureDetector(
-        onTap: (){
-          Navigator.push(context, MaterialPageRoute(builder: (context){
-            return  ProductDescription(product: product,);
+        onTap: () {
+          Navigator.push(context, MaterialPageRoute(builder: (context) {
+            return ProductDescription(
+              product: product,
+            );
           }));
         },
         child: Column(
@@ -81,9 +85,25 @@ class _MainBodyState extends State<MainBody> {
                     Text(product.price),
                   ],
                 ),
-                const Icon(
-                  Icons.favorite_border,
-                  color: Colors.grey,
+                GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      if (added) {
+                        _saved.remove(product.title);
+                      } else {
+                        _saved.add(product.title);
+                      }
+                    });
+                  },
+                  child: _saved.contains(product.title)
+                      ? const Icon(
+                          Icons.favorite,
+                          color: Colors.red,
+                        )
+                      : const Icon(
+                          Icons.favorite_border,
+                          color: Colors.grey,
+                        ),
                 ),
               ],
             ),

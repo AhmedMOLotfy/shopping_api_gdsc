@@ -1,9 +1,8 @@
-
 import 'package:flutter/material.dart';
 import 'package:shopping_api_gdsc/parse_json.dart';
+import 'package:shopping_api_gdsc/productDescription.dart';
 import 'package:shopping_api_gdsc/upper.dart';
-
-import 'Product/product-class.dart';
+import 'package:shopping_api_gdsc/Product/product-class.dart';
 
 class MainBody extends StatefulWidget {
   const MainBody({Key? key}) : super(key: key);
@@ -20,12 +19,13 @@ class _MainBodyState extends State<MainBody> {
     futureAlbum = fetchData();
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         columnUpper,
-        FutureBuilder<List<Product>>(
+        FutureBuilder<List<Product>> (
           future: futureAlbum,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
@@ -56,39 +56,47 @@ class _MainBodyState extends State<MainBody> {
       ],
     );
   }
-  Widget _buildProducts(Product e) {
+
+  Widget _buildProducts(Product product) {
     return Container(
       padding: const EdgeInsets.all(5),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),
       ),
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                children: [
-                  const Text("\$"),
-                  Text(e.price),
-                ],
-              ),
-              const Icon(
-                Icons.favorite_border,
-                color: Colors.grey,
-              ),
-            ],
-          ),
-          Image.network(
-            e.image,
-            height: 120,
-          ),
-          const SizedBox(
-            height: 5,
-          ),
-          Text(e.title.substring(0, 18)),
-        ],
+      child: GestureDetector(
+        onTap: (){
+          Navigator.push(context, MaterialPageRoute(builder: (context){
+            return  ProductDescription(product: product,);
+          }));
+        },
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [
+                    const Text("\$"),
+                    Text(product.price),
+                  ],
+                ),
+                const Icon(
+                  Icons.favorite_border,
+                  color: Colors.grey,
+                ),
+              ],
+            ),
+            Image.network(
+              product.image,
+              height: 120,
+            ),
+            const SizedBox(
+              height: 5,
+            ),
+            Text(product.title.substring(0, 18)),
+          ],
+        ),
       ),
     );
   }

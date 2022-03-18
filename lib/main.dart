@@ -1,7 +1,6 @@
-import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
-import 'package:shopping_api_gdsc/profileAvatar.dart';
 import 'package:shopping_api_gdsc/MainBody.dart';
+import 'package:shopping_api_gdsc/mainAppBar.dart';
 
 void main() => runApp(
       const MyApp(),
@@ -27,37 +26,54 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  int _selectedIndex = 0;
+  List<Widget> pages = [
+    const MainBody(),
+    const Text("Num 2"),
+    const Text("num 3"),
+    const Text("num 4"),
+    const Text("num 5")
+  ];
 
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFDCF0F9),
-      appBar: AppBar(
-        systemOverlayStyle: SystemUiOverlayStyle.dark,
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        leading: Padding(
-          padding: const EdgeInsets.only(left: 6.0),
-          child: IconButton(
-            icon: const Icon(
-              Icons.sort,
-              color: Colors.black,
-            ),
-            onPressed: () {},
-          ),
-        ),
-        actions: [
-          profileAvatar,
+      appBar: mainAppBar,
+      body: pages.elementAt(_selectedIndex),
+      bottomNavigationBar: BottomNavigationBar(
+        unselectedItemColor: Colors.grey,
+        backgroundColor: Colors.white,
+        showSelectedLabels: false,
+        showUnselectedLabels: false,
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(icon: Icon(Icons.home_outlined), label: ''),
+          BottomNavigationBarItem(
+              icon: Icon(
+                Icons.chat_bubble_outline,
+              ),
+              label: ''),
+          //Icon(
+          //   Icons.local_grocery_store,
+          // ),
+          BottomNavigationBarItem(icon: Icon(Icons.favorite_border), label: ''),
+          BottomNavigationBarItem(icon: Icon(Icons.shopping_cart), label: ''),
+          BottomNavigationBarItem(
+              icon: Icon(
+                Icons.perm_identity,
+              ),
+              label: ''),
         ],
+        currentIndex: _selectedIndex,
+        onTap: _onItemTapped,
+        selectedItemColor: const Color(0xFF08D8E1),
       ),
-      body: const MainBody(),
-
     );
   }
 }
-
-
-
-
-

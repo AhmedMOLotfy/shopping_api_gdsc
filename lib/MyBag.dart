@@ -63,8 +63,19 @@ class _MyBagState extends State<MyBag> {
                         ),
                         Row(
                           children: [
-                            Text("\$"),
-                            Text(cart.totalPrice.ceilToDouble().toString()),
+                            const Text(
+                              "\$",
+                              style: TextStyle(
+                                  color: Color(0xFF08D8E1),
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            Text(
+                              cart.totalPrice.ceilToDouble().toString(),
+                              style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Color(0xFF323b5a)),
+                            ),
+
                           ],
                         )
                       ],

@@ -27,6 +27,10 @@ class CartModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  bool exist(Product product){
+    return myItems.contains(product);
+  }
+
   void removeItem(Product item){
     myItems.remove(item);
     notifyListeners();

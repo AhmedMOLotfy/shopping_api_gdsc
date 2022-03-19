@@ -38,10 +38,10 @@ class _MyHomePageState extends State<MyHomePage> {
   int _selectedIndex = 0;
   List<Widget> pages = [
     const MainBody(),
-    const Text(""),
-    const Text(""),
+    const Center(child: Text("Usr")),
+    const Center(child: Text("Lke")),
     const MyBag(),
-    const Text("")
+    const Center(child: Text("Msg")),
   ];
 
   void _onItemTapped(int index) {

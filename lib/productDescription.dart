@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shopping_api_gdsc/Product/product-class.dart';
+import 'package:shopping_api_gdsc/appState.dart';
 
 class ProductDescription extends StatefulWidget {
   final Product product;
@@ -407,7 +409,11 @@ class _ProductDescriptionState extends State<ProductDescription> {
                                       ),
                                     ),
                                   ),
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    Provider.of<CartModel>(context, listen: false).add(widget.product);
+                                    Provider.of<CartModel>(context, listen: false).printItems();
+
+                                  },
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: const [

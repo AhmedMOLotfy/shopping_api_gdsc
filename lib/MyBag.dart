@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:provider/provider.dart';
 import 'package:shopping_api_gdsc/appState.dart';
 
@@ -42,11 +43,35 @@ class _MyBagState extends State<MyBag> {
             Column(
               children: cart.items.map((e) => ConsumerBag(product: e)).toList(),
             ),
-            ElevatedButton(
-              onPressed: () {},
-              child: Text(
-                "${cart.totalPrice.roundToDouble()}",
-              ),
+            Row(
+              children: [
+                Expanded(
+                  child: Container(
+                    margin: const EdgeInsets.all(8),
+                    padding: const EdgeInsets.all(15),
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(12)),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            Text(cart.myItems.length.toString()),
+                            Text(" Item(s)")
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Text("\$"),
+                            Text(cart.totalPrice.ceilToDouble().toString()),
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
+                )
+              ],
             ),
           ],
         );
@@ -64,47 +89,70 @@ class ConsumerBag extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        SingleChildScrollView(
-          child: Column(
+    return Slidable(
+      key: const ValueKey(0),
+      endActionPane: ActionPane(
+        motion: const ScrollMotion(),
+        children: [
+          SlidableAction(
+            onPressed: (context) {
+              Provider.of<CartModel>(context, listen: false)
+                  .removeItem(product);
+            },
+            backgroundColor: const Color(0xFFFE4A49),
+            foregroundColor: Colors.white,
+            icon: Icons.delete,
+            label: 'Delete',
+          )
+        ],
+      ),
+      child: Container(
+        margin: const EdgeInsets.all(7),
+        child: Container(
+          width: double.infinity,
+          height: 90,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(25.0),
+          ),
+          padding: const EdgeInsets.all(12),
+          child: Row(
             children: [
-              Container(
-                margin: const EdgeInsets.all(7),
-                child: Container(
-                  width: double.infinity,
-                  height: 90,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(25.0),
-                  ),
-                  padding: const EdgeInsets.all(12),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        flex: 2,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              product.title,
-                              softWrap: true,
-                            ),
-                            Text("${product.price.toString()}\$")
-                          ],
+              Expanded(
+                flex: 2,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(product.title,
+                        softWrap: true,
+                        style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFF323b5a))),
+                    Row(
+                      children: [
+                        Text(
+                          product.price.toString(),
+                          style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Color(0xFF323b5a)),
                         ),
-                      ),
-                      Expanded(flex: 1, child: Image.network(product.image))
-                    ],
-                  ),
+                        const Text(
+                          "\$",
+                          style: TextStyle(
+                              color: Color(0xFF08D8E1),
+                              fontWeight: FontWeight.bold),
+                        )
+                      ],
+                    )
+                  ],
                 ),
               ),
+              Expanded(flex: 1, child: Image.network(product.image))
             ],
           ),
         ),
-      ],
+      ),
     );
   }
 }

@@ -38,10 +38,10 @@ class _MyHomePageState extends State<MyHomePage> {
   int _selectedIndex = 0;
   List<Widget> pages = [
     const MainBody(),
-    const Center(child: Text("Usr")),
+    const Center(child: Text("Msg")),
     const Center(child: Text("Lke")),
     const MyBag(),
-    const Center(child: Text("Msg")),
+    const Center(child: Text("Usr")),
   ];
 
   void _onItemTapped(int index) {
@@ -53,36 +53,53 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFDCF0F9),
-      appBar: mainAppBar,
-      body: pages.elementAt(_selectedIndex),
-      bottomNavigationBar: BottomNavigationBar(
-        unselectedItemColor: Colors.grey,
-        backgroundColor: Colors.blue,
-        showSelectedLabels: false,
-        showUnselectedLabels: false,
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(icon: Icon(Icons.home_outlined), label: ''),
-          BottomNavigationBarItem(
-              icon: Icon(
-                Icons.chat_bubble_outline,
+        backgroundColor: const Color(0xFFDCF0F9),
+        appBar: mainAppBar,
+        body: pages.elementAt(_selectedIndex),
+        bottomNavigationBar: Container(
+            decoration: const BoxDecoration(
+              borderRadius: BorderRadius.only(
+                  topRight: Radius.circular(30), topLeft: Radius.circular(30)),
+              boxShadow: [
+                BoxShadow(
+                    color: Colors.black38, spreadRadius: 0, blurRadius: 5),
+              ],
+            ),
+            child: ClipRRect(
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(20.0),
+                topRight: Radius.circular(20.0),
               ),
-              label: ''),
-          //Icon(
-          //   Icons.local_grocery_store,
-          // ),
-          BottomNavigationBarItem(icon: Icon(Icons.favorite_border), label: ''),
-          BottomNavigationBarItem(icon: Icon(Icons.shopping_cart), label: ''),
-          BottomNavigationBarItem(
-              icon: Icon(
-                Icons.perm_identity,
+              child: BottomNavigationBar(
+                unselectedItemColor: Colors.grey,
+                backgroundColor: Colors.blue,
+                showSelectedLabels: false,
+                showUnselectedLabels: false,
+                items: const <BottomNavigationBarItem>[
+                  BottomNavigationBarItem(
+                      icon: Icon(Icons.home_outlined), label: ''),
+                  BottomNavigationBarItem(
+                      icon: Icon(
+                        Icons.chat_bubble_outline,
+                      ),
+                      label: ''),
+                  //Icon(
+                  //   Icons.local_grocery_store,
+                  // ),
+                  BottomNavigationBarItem(
+                      icon: Icon(Icons.favorite_border), label: ''),
+                  BottomNavigationBarItem(
+                      icon: Icon(Icons.shopping_cart), label: ''),
+                  BottomNavigationBarItem(
+                      icon: Icon(
+                        Icons.perm_identity,
+                      ),
+                      label: ''),
+                ],
+                currentIndex: _selectedIndex,
+                onTap: _onItemTapped,
+                selectedItemColor: const Color(0xFF08D8E1),
               ),
-              label: ''),
-        ],
-        currentIndex: _selectedIndex,
-        onTap: _onItemTapped,
-        selectedItemColor: const Color(0xFF08D8E1),
-      ),
-    );
+            )));
   }
 }

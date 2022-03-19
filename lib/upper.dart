@@ -10,6 +10,7 @@ TextField searchEngine = TextField(
       decoration: const BoxDecoration(
         color: Color(0xFF08D8E1),
         shape: BoxShape.circle,
+
       ),
       child: const Icon(
         Icons.search_sharp,

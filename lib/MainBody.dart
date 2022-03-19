@@ -81,8 +81,9 @@ class _MainBodyState extends State<MainBody> {
               children: [
                 Row(
                   children: [
-                    const Text("\$"),
-                    Text(product.price),
+                    const Text("\$",style: TextStyle(color: Color(0xFF08D8E1),fontWeight: FontWeight.bold),),
+                    Text(product.price,style: const TextStyle(fontWeight: FontWeight.bold,
+                        color: Color(0xFF323b5a)),),
                   ],
                 ),
                 GestureDetector(
@@ -114,7 +115,8 @@ class _MainBodyState extends State<MainBody> {
             const SizedBox(
               height: 5,
             ),
-            Text(product.title.substring(0, 18)),
+            Text(product.title.substring(0, 18),style: const TextStyle(
+                color: Color(0xFF323b5a))),
           ],
         ),
       ),
